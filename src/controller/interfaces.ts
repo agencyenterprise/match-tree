@@ -6,15 +6,15 @@ export interface ISeed {
 
 export interface IToClear {
   seeds: ISeed[];
-  isBost?: 'axe' | 'fork' | 'shovel';
+  isBoost?: 'axe' | 'fork' | 'shovel';
 }
 export const SeedsTypesAsArr = ['corn', 'green', 'black'];
 
 export interface IMove {
   row: number;
   col: number;
-  swapRow: number;
-  swapCol: number;
+  targetRow: number;
+  targetCol: number;
   isValid: boolean;
 }
 
@@ -27,7 +27,7 @@ export interface IGameState {
 
 export interface IGameFunctions {
   hasMove: () => boolean;
-  tryMove: (move: Partial<IMove>) => { move: IMove; matching?: IToClear };
+  tryMove(move: Omit<IMove, 'isValid'>): { move: IMove; matching?: IToClear };
   spawnSeeds: () => void;
   getLives: () => number;
   getScore: () => number;

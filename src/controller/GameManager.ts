@@ -42,16 +42,29 @@ export class GameManager implements IGameState, IGameFunctions {
   };
 
   hasMove = () => true;
-  tryMove = () => {
-    const move: IMove = {
-      col: 0,
-      isValid: true,
-      row: 0,
-      swapCol: 0,
-      swapRow: 0
+  tryMove = (
+    move: Omit<IMove, 'isValid'>
+  ): { move: IMove; matching?: IToClear } => {
+    const newSeeds = this.seeds.slice();
+    const currentSeed = newSeeds[move.col][move.row];
+    const targetSeed = newSeeds[move.targetCol][move.targetRow];
+    newSeeds[move.col][move.row] = {
+      ...targetSeed,
+      col: move.col,
+      row: move.row
+    };
+    newSeeds[move.targetCol][move.targetRow] = {
+      ...currentSeed,
+      col: move.targetCol,
+      row: move.targetRow
     };
 
-    return { move };
+    const seeds = this.getMatching();
+    if (seeds.length) {
+      return { move: { ...move, isValid: true }, matching: { seeds } };
+    } else {
+      return { move: { ...move, isValid: false } };
+    }
   };
   getMatchingCols = () => {
     const seedRows: ISeed[][] = [];

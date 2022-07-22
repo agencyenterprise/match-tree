@@ -164,3 +164,49 @@ it('can get matching rows', () => {
     { col: 3, row: 2, type: 'green' }
   ]);
 });
+
+it('can try a valid move', () => {
+  const gamemanager = new GameManager(0, [
+    [
+      { col: 0, row: 0, type: 'black' },
+      { col: 0, row: 1, type: 'corn' },
+      { col: 0, row: 2, type: 'black' },
+      { col: 0, row: 3, type: 'green' }
+    ],
+    [
+      { col: 1, row: 0, type: 'corn' },
+      { col: 1, row: 1, type: 'black' },
+      { col: 1, row: 2, type: 'black' },
+      { col: 1, row: 3, type: 'green' }
+    ],
+    [
+      { col: 2, row: 0, type: 'green' },
+      { col: 2, row: 1, type: 'corn' },
+      { col: 2, row: 2, type: 'green' },
+      { col: 2, row: 3, type: 'corn' }
+    ],
+    [
+      { col: 3, row: 0, type: 'green' },
+      { col: 3, row: 1, type: 'black' },
+      { col: 3, row: 2, type: 'green' },
+      { col: 3, row: 3, type: 'corn' }
+    ]
+  ]);
+  expect(
+    gamemanager.tryMove({
+      col: 0,
+      row: 0,
+      targetCol: 1,
+      targetRow: 0
+    })
+  ).toEqual({
+    move: { col: 0, row: 0, targetCol: 1, targetRow: 0, isValid: true },
+    matching: {
+      seeds: [
+        { col: 1, row: 0, type: 'black' },
+        { col: 1, row: 1, type: 'black' },
+        { col: 1, row: 2, type: 'black' }
+      ]
+    }
+  });
+});
