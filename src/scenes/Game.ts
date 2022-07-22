@@ -26,7 +26,7 @@ export default class Demo extends Phaser.Scene {
     const atlasTexture = this.textures.get('megaset');
 
     const frame = atlasTexture.get('background.png');
-    const background = this.add.layer();
+
     let scale = 1;
 
     if (this.game.scale.width > frame.width) {
@@ -49,6 +49,9 @@ export default class Demo extends Phaser.Scene {
 
   create() {
     this.createBackground();
+    this.add.existing(new GameGrid(this));
+
+
     //  img.height
     //  background.add()
   }

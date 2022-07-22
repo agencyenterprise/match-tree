@@ -1,7 +1,7 @@
 import { GameManager } from './GameManager';
 import { ISeed } from './interfaces';
 it('create a board and inits a board', () => {
-  const gamemanager = new GameManager(10);
+  const gamemanager = new GameManager({boardSize:10,minMatch:3});
   expect(gamemanager.boardSize).toEqual(10);
   expect(gamemanager.seeds.length).toEqual(10);
   expect(gamemanager.seeds[9].length).toEqual(10);
