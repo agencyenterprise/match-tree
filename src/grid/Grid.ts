@@ -3,7 +3,7 @@ import { GameManager } from '../controller/GameManager';
 import { ISeed } from '../controller/interfaces';
 
 export default class GameGrid extends Phaser.GameObjects.Group {
-  gm = new GameManager({ boardSize: 6, minMatch: 3 });
+  gm = new GameManager({ boardSize: 6 });
   selected: { first?: {seed:ISeed, sprite:Phaser.GameObjects.Sprite}; second?: {seed:ISeed, sprite:Phaser.GameObjects.Sprite} } = {};
   constructor(scene: Phaser.Scene) {
     super(scene);

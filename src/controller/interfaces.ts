@@ -1,5 +1,8 @@
+export const SeedsTypesAsArr = ['corn', 'green', 'black'];
+export type SeedType = typeof SeedsTypesAsArr[number];
+
 export interface ISeed {
-  type: 'corn' | 'green' | 'black';
+  type: SeedType;
   row: number;
   col: number;
 }
@@ -8,7 +11,6 @@ export interface IToClear {
   seeds: ISeed[];
   isBoost?: 'axe' | 'fork' | 'shovel';
 }
-export const SeedsTypesAsArr = ['corn', 'green', 'black'];
 
 export interface IMove {
   row: number;
@@ -19,7 +21,7 @@ export interface IMove {
 }
 
 export interface IGameState {
-  seeds: ISeed[][];
+  seeds: (ISeed | null)[][];
   moves: IMove[];
   boardSize: number;
   isMoving: boolean;
@@ -28,7 +30,7 @@ export interface IGameState {
 export interface IGameFunctions {
   hasMove: () => { move: IMove; matching?: IToClear }[];
   tryMove(move: Omit<IMove, 'isValid'>): { move: IMove; matching?: IToClear };
-  spawnSeeds: () => void;
+  spawnSeeds: (seeds: (ISeed | null)[][]) => ISeed[][];
   getLives: () => number;
   getScore: () => number;
   updateMatching: (matching: IToClear) => void;

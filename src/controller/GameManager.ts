@@ -4,7 +4,8 @@ import {
   IMove,
   ISeed,
   IToClear,
-  SeedsTypesAsArr
+  SeedsTypesAsArr,
+  SeedType
 } from './interfaces';
 import * as _ from 'lodash';
 export class GameManager implements IGameState, IGameFunctions {
@@ -19,8 +20,8 @@ export class GameManager implements IGameState, IGameFunctions {
     minMatch = 3,
     seeds = undefined
   }: {
-    boardSize: number;
-    minMatch: number;
+    boardSize?: number;
+    minMatch?: number;
     seeds?: ISeed[][];
   }) {
     this.moves = [];
@@ -28,27 +29,17 @@ export class GameManager implements IGameState, IGameFunctions {
     this.minMatch = minMatch;
     if (!seeds) {
       this.boardSize = boardSize;
-      this.seeds = this.init(this.boardSize);
+      this.seeds = this.spawnSeeds();
     } else {
       this.seeds = seeds;
       this.boardSize = seeds.length;
     }
   }
-  init = (size: number) => {
-    const seeds: ISeed[][] = [[]];
-    for (let i = 0; i < size; i++) {
-      seeds[i] = [];
-      for (let j = 0; j < size; j++) {
-        seeds[i][j] = { col: i, row: j, type: this.getRandomSeed() };
-      }
-    }
-    return seeds;
-  };
 
   getRandomSeed = () => {
     return SeedsTypesAsArr[
       Math.floor(Math.random() * SeedsTypesAsArr.length)
-    ] as 'corn' | 'green' | 'black';
+    ] as SeedType;
   };
 
   hasMove = () => {
@@ -89,18 +80,17 @@ export class GameManager implements IGameState, IGameFunctions {
   ): { move: IMove; matching?: IToClear } => {
     const colMov = Math.abs(move.col - move.targetCol);
     const rowMov = Math.abs(move.row - move.targetRow);
-    if (colMov === 0 && rowMov == 0) {
-      return { move: { ...move, isValid: false } };
-    }
-    if (colMov > 1) {
+    if (
+      (colMov === 0 && rowMov == 0) || // Move to same spot
+      colMov > 1 || // Jumping a spot
+      rowMov > 1 ||
+      (colMov === 1 && rowMov !== 0) || // Trying to move diagonally
+      (rowMov === 1 && colMov !== 0)
+    ) {
       return { move: { ...move, isValid: false } };
     }
 
-    if (rowMov > 1) {
-      return { move: { ...move, isValid: false } };
-    }
-
-    const newSeeds = this.seeds.slice();
+    const newSeeds = _.cloneDeep(this.seeds);
     const currentSeed = newSeeds[move.col][move.row];
     const targetSeed = newSeeds[move.targetCol][move.targetRow];
     newSeeds[move.col][move.row] = {
@@ -114,16 +104,16 @@ export class GameManager implements IGameState, IGameFunctions {
       row: move.targetRow
     };
 
-    const seeds = this.getMatching();
+    const seeds = this.getMatching(newSeeds);
     if (seeds.length) {
       return { move: { ...move, isValid: true }, matching: { seeds } };
     } else {
       return { move: { ...move, isValid: false } };
     }
   };
-  getMatchingCols = () => {
-    const seedRows: ISeed[][] = [];
-    this.seeds.forEach((cols) => {
+  getMatchingCols = (seeds: (ISeed | null)[][] = this.seeds) => {
+    const seedRows: (ISeed | null)[][] = [];
+    seeds.forEach((cols) => {
       cols.forEach((seed, rowIndex) => {
         if (!seedRows[rowIndex]) {
           seedRows[rowIndex] = [];
@@ -131,65 +121,79 @@ export class GameManager implements IGameState, IGameFunctions {
         seedRows[rowIndex].push(seed);
       });
     });
-
-    const matchingSeeds: ISeed[] = [];
-    seedRows.forEach((row) => {
-      let latestSeedType: string = '';
-      let counter = 1;
-      row.forEach((seed, seedIndex) => {
-        if (seed.type === latestSeedType) {
-          counter += 1;
-          if (seedIndex >= row.length - 1 && counter >= this.minMatch) {
-            matchingSeeds.push(
-              ...row.slice(seedIndex - counter + 1, seedIndex + 1)
-            );
-          }
-        } else {
-          if (counter >= this.minMatch) {
-            matchingSeeds.push(
-              ...row.slice(seedIndex - this.minMatch, seedIndex)
-            );
-          }
-          counter = 1;
-        }
-        latestSeedType = seed.type;
-      });
-    });
-    return matchingSeeds;
+    return this.getMatchingRows(seedRows);
   };
-  getMatchingRows = () => {
+  getMatchingRows = (seeds: (ISeed | null)[][] = this.seeds) => {
     const matchingSeeds: ISeed[] = [];
-    this.seeds.forEach((col) => {
-      let latestSeedType: string = '';
+    seeds.forEach((col) => {
+      let latestSeedType: string | null = null;
       let counter = 1;
       col.forEach((seed, seedIndex) => {
-        if (seed.type === latestSeedType) {
+        if (!seed) {
+          counter = 0;
+        } else if (seed.type === latestSeedType) {
           counter += 1;
           if (seedIndex >= col.length - 1 && counter >= this.minMatch) {
             matchingSeeds.push(
-              ...col.slice(seedIndex - counter + 1, seedIndex + 1)
+              ...(col.slice(seedIndex - counter + 1, seedIndex + 1) as ISeed[])
             );
           }
         } else {
           if (counter >= this.minMatch) {
             matchingSeeds.push(
-              ...col.slice(seedIndex - this.minMatch, seedIndex)
+              ...(col.slice(seedIndex - this.minMatch, seedIndex) as ISeed[])
             );
           }
           counter = 1;
         }
-        latestSeedType = seed.type;
+        latestSeedType = seed?.type ?? null;
       });
     });
     return matchingSeeds;
   };
 
-  getMatching = () => {
-    const matching = [...this.getMatchingCols(), ...this.getMatchingRows()];
+  getMatching = (seeds: (ISeed | null)[][] = this.seeds) => {
+    const matching = [
+      ...this.getMatchingCols(seeds),
+      ...this.getMatchingRows(seeds)
+    ];
     return _.uniq(matching);
   };
 
-  spawnSeeds = () => {};
+  spawnSeeds = (
+    seeds: (ISeed | null)[][] | null = null,
+    allowMatching: boolean = true
+  ): ISeed[][] => {
+    let newSeeds: (ISeed | null)[][];
+    if (seeds) {
+      newSeeds = _.cloneDeep(seeds);
+    } else {
+      newSeeds = [];
+      for (let i = 0; i < this.boardSize; ++i) {
+        newSeeds.push([]);
+        for (let j = 0; j < this.boardSize; ++j) {
+          newSeeds[i] = Array(this.boardSize).fill(null) as null[];
+        }
+      }
+    }
+    for (let i = 0; i < this.boardSize; ++i) {
+      for (let j = 0; j < this.boardSize; ++j) {
+        const seed = seeds?.[i][j];
+        if (seed == null) {
+          do {
+            newSeeds[i][j] = {
+              col: i,
+              row: j,
+              type: this.getRandomSeed()
+            };
+          } while (!allowMatching && this.getMatching(newSeeds).length);
+        } else {
+          newSeeds[i][j] = seed;
+        }
+      }
+    }
+    return newSeeds as ISeed[][];
+  };
   getLives = () => 0;
   getScore = () => 0;
   updateMatching!: (matching: IToClear) => 0;
