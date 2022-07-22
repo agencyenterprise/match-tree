@@ -44,7 +44,6 @@ it('create a board and inits a board', () => {
 
 it('can override init seeds', () => {
   const gamemanager = new GameManager({
-    boardSize: 3,
     seeds: generateSeeds(['b', 'b', 'b'], ['c', 'g', 'b'], ['b', 'g', 'c'])
   });
   expect(gamemanager.boardSize).toEqual(3);
@@ -54,7 +53,6 @@ it('can override init seeds', () => {
 
 it('has cols and rows arranged correctly', () => {
   const gamemanager = new GameManager({
-    boardSize: 3,
     seeds: generateSeeds(['c', 'c', 'c'], ['c', 'g', 'b'], ['c', 'g', 'c'])
   });
   expect(gamemanager.seeds[1][2].type).toEqual('black');
@@ -63,7 +61,6 @@ it('has cols and rows arranged correctly', () => {
 describe('when matching cols', () => {
   it('can get matching cols', () => {
     const gamemanager = new GameManager({
-      boardSize: 4,
       seeds: generateSeeds(
         ['b', 'c', 'g', 'g'],
         ['b', 'b', 'g', 'c'],
@@ -106,7 +103,6 @@ describe('when matching cols', () => {
 
   it('returns empty array if no matches', () => {
     const gamemanager = new GameManager({
-      boardSize: 4,
       seeds: generateSeeds(
         ['b', 'c', 'g', 'g'],
         ['c', 'b', 'g', 'c'],
@@ -121,7 +117,6 @@ describe('when matching cols', () => {
 describe('when matching rows', () => {
   it('can get matching rows', () => {
     const gamemanager = new GameManager({
-      boardSize: 4,
       seeds: generateSeeds(
         ['b', 'b', 'b', 'g'],
         ['c', 'b', 'g', 'g'],
@@ -164,7 +159,6 @@ describe('when matching rows', () => {
 
   it('returns empty array if no matches', () => {
     const gamemanager = new GameManager({
-      boardSize: 4,
       seeds: generateSeeds(
         ['b', 'c', 'g', 'g'],
         ['c', 'b', 'g', 'c'],
@@ -178,7 +172,6 @@ describe('when matching rows', () => {
 
 it('can get matching for both rows and cols', () => {
   const gamemanager = new GameManager({
-    boardSize: 4,
     seeds: generateSeeds(
       ['b', 'c', 'b', 'g'],
       ['c', 'c', 'g', 'g'],
@@ -199,7 +192,6 @@ it('can get matching for both rows and cols', () => {
 
 it('can try a valid move', () => {
   const gamemanager = new GameManager({
-    boardSize: 4,
     seeds: generateSeeds(
       ['b', 'c', 'b', 'g'],
       ['c', 'b', 'b', 'g'],
@@ -228,7 +220,6 @@ it('can try a valid move', () => {
 
 it('try move finds a valid move', () => {
   const gamemanager = new GameManager({
-    boardSize: 2,
     minMatch: 2,
     seeds: generateSeeds(['b', 'c'], ['c', 'b'])
   });

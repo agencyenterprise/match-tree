@@ -27,10 +27,10 @@ export class GameManager implements IGameState, IGameFunctions {
   } = {}) {
     if (
       seeds &&
-      (seeds.length !== boardSize ||
-        seeds.some((col) => col.length !== boardSize))
+      seeds.some((col) => col.length !== seeds.length) &&
+      !seeds.length
     ) {
-      throw new Error('board size must match seeds dimensions');
+      throw new Error('seeds must be a square with some length');
     }
 
     this.moves = [];
