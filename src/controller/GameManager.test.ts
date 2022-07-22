@@ -85,6 +85,28 @@ describe('when matching cols', () => {
     ]);
   });
 
+  it('can get matching cols when some are null', () => {
+    const gamemanager = new GameManager({ boardSize: 0, minMatch: 3 });
+    expect(
+      gamemanager.getMatchingCols(
+        generateSeedsNullable(
+          ['b', 'c', 'g', 'g'],
+          ['b', null, 'g', null],
+          ['b', 'g', 'g', 'g'],
+          ['g', 'g', 'g', 'c']
+        )
+      )
+    ).toEqual([
+      { col: 0, row: 0, type: 'black' },
+      { col: 1, row: 0, type: 'black' },
+      { col: 2, row: 0, type: 'black' },
+      { col: 0, row: 2, type: 'green' },
+      { col: 1, row: 2, type: 'green' },
+      { col: 2, row: 2, type: 'green' },
+      { col: 3, row: 2, type: 'green' }
+    ]);
+  });
+
   it('returns empty array if no matches', () => {
     const gamemanager = new GameManager({
       boardSize: 0,
@@ -100,26 +122,64 @@ describe('when matching cols', () => {
   });
 });
 
-it('can get matching rows', () => {
-  const gamemanager = new GameManager({
-    boardSize: 0,
-    minMatch: 3,
-    seeds: generateSeeds(
-      ['b', 'b', 'b', 'g'],
-      ['c', 'b', 'g', 'g'],
-      ['g', 'g', 'g', 'g'],
-      ['g', 'c', 'g', 'c']
-    )
+describe('when matching rows', () => {
+  it('can get matching rows', () => {
+    const gamemanager = new GameManager({
+      boardSize: 0,
+      minMatch: 3,
+      seeds: generateSeeds(
+        ['b', 'b', 'b', 'g'],
+        ['c', 'b', 'g', 'g'],
+        ['g', 'g', 'g', 'g'],
+        ['g', 'c', 'g', 'c']
+      )
+    });
+    expect(gamemanager.getMatchingRows()).toEqual([
+      { col: 0, row: 0, type: 'black' },
+      { col: 0, row: 1, type: 'black' },
+      { col: 0, row: 2, type: 'black' },
+      { col: 2, row: 0, type: 'green' },
+      { col: 2, row: 1, type: 'green' },
+      { col: 2, row: 2, type: 'green' },
+      { col: 2, row: 3, type: 'green' }
+    ]);
   });
-  expect(gamemanager.getMatchingRows()).toEqual([
-    { col: 0, row: 0, type: 'black' },
-    { col: 0, row: 1, type: 'black' },
-    { col: 0, row: 2, type: 'black' },
-    { col: 2, row: 0, type: 'green' },
-    { col: 2, row: 1, type: 'green' },
-    { col: 2, row: 2, type: 'green' },
-    { col: 2, row: 3, type: 'green' }
-  ]);
+
+  it('can get matching rows when some are null', () => {
+    const gamemanager = new GameManager({ boardSize: 0, minMatch: 3 });
+    expect(
+      gamemanager.getMatchingRows(
+        generateSeedsNullable(
+          ['b', 'b', 'b', 'g'],
+          [null, 'b', null, 'g'],
+          ['g', 'g', 'g', 'g'],
+          ['g', 'c', 'g', 'c']
+        )
+      )
+    ).toEqual([
+      { col: 0, row: 0, type: 'black' },
+      { col: 0, row: 1, type: 'black' },
+      { col: 0, row: 2, type: 'black' },
+      { col: 2, row: 0, type: 'green' },
+      { col: 2, row: 1, type: 'green' },
+      { col: 2, row: 2, type: 'green' },
+      { col: 2, row: 3, type: 'green' }
+    ]);
+  });
+
+  it('returns empty array if no matches', () => {
+    const gamemanager = new GameManager({
+      boardSize: 0,
+      minMatch: 3,
+      seeds: generateSeeds(
+        ['b', 'c', 'g', 'g'],
+        ['c', 'b', 'g', 'c'],
+        ['b', 'g', 'b', 'g'],
+        ['g', 'c', 'g', 'c']
+      )
+    });
+    expect(gamemanager.getMatchingRows()).toEqual([]);
+  });
 });
 
 it('can get matching for both rows and cols', () => {
