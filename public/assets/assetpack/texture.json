@@ -4,8 +4,8 @@
 			"image": "texture",
 			"format": "RGBA8888",
 			"size": {
-				"w": 2047,
-				"h": 2045
+				"w": 2048,
+				"h": 2044
 			},
 			"scale": 1,
 			"frames": [
@@ -199,66 +199,87 @@
 					}
 				},
 				{
-					"filename": "levelcoin.png",
-					"rotated": false,
-					"trimmed": true,
+					"filename": "shop.png",
+					"rotated": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 103,
-						"h": 101
+						"w": 172,
+						"h": 110
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 102,
-						"h": 101
+						"w": 172,
+						"h": 110
 					},
 					"frame": {
 						"x": 1893,
 						"y": 574,
-						"w": 102,
-						"h": 101
+						"w": 172,
+						"h": 110
 					}
 				},
 				{
-					"filename": "heart.png",
-					"rotated": true,
-					"trimmed": false,
+					"filename": "axe.png",
+					"rotated": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 57,
-						"h": 52
+						"w": 54,
+						"h": 69
 					},
 					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 57,
-						"h": 52
+						"x": 7,
+						"y": 2,
+						"w": 45,
+						"h": 60
 					},
 					"frame": {
-						"x": 1995,
+						"x": 2003,
 						"y": 574,
-						"w": 57,
-						"h": 52
+						"w": 45,
+						"h": 60
 					}
 				},
 				{
-					"filename": "greenseed.png",
-					"rotated": true,
-					"trimmed": false,
+					"filename": "lightning.png",
+					"rotated": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 49,
-						"h": 51
+						"w": 45,
+						"h": 54
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 49,
-						"h": 51
+						"w": 44,
+						"h": 54
 					},
 					"frame": {
-						"x": 1995,
-						"y": 631,
-						"w": 49,
-						"h": 51
+						"x": 2003,
+						"y": 634,
+						"w": 44,
+						"h": 54
+					}
+				},
+				{
+					"filename": "gear.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 44
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 44
+					},
+					"frame": {
+						"x": 2003,
+						"y": 688,
+						"w": 44,
+						"h": 44
 					}
 				},
 				{
@@ -283,7 +304,70 @@
 					}
 				},
 				{
-					"filename": "woodcircle.png",
+					"filename": "levelcoin.png",
+					"rotated": true,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 103,
+						"h": 101
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 102,
+						"h": 101
+					},
+					"frame": {
+						"x": 0,
+						"y": 1890,
+						"w": 102,
+						"h": 101
+					}
+				},
+				{
+					"filename": "heart.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 57,
+						"h": 52
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 57,
+						"h": 52
+					},
+					"frame": {
+						"x": 0,
+						"y": 1992,
+						"w": 57,
+						"h": 52
+					}
+				},
+				{
+					"filename": "greenseed.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 49,
+						"h": 51
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 49,
+						"h": 51
+					},
+					"frame": {
+						"x": 57,
+						"y": 1992,
+						"w": 49,
+						"h": 51
+					}
+				},
+				{
+					"filename": "settings.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -297,31 +381,10 @@
 						"h": 100
 					},
 					"frame": {
-						"x": 0,
+						"x": 101,
 						"y": 1890,
 						"w": 92,
 						"h": 100
-					}
-				},
-				{
-					"filename": "lightning.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 45,
-						"h": 54
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 44,
-						"h": 54
-					},
-					"frame": {
-						"x": 0,
-						"y": 1990,
-						"w": 44,
-						"h": 54
 					}
 				},
 				{
@@ -339,10 +402,31 @@
 						"h": 46
 					},
 					"frame": {
-						"x": 44,
+						"x": 106,
 						"y": 1990,
 						"w": 59,
 						"h": 46
+					}
+				},
+				{
+					"filename": "woodcircle.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 92,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 92,
+						"h": 100
+					},
+					"frame": {
+						"x": 193,
+						"y": 1890,
+						"w": 92,
+						"h": 100
 					}
 				},
 				{
@@ -360,52 +444,10 @@
 						"h": 95
 					},
 					"frame": {
-						"x": 92,
+						"x": 285,
 						"y": 1890,
 						"w": 190,
 						"h": 95
-					}
-				},
-				{
-					"filename": "axe.png",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 54,
-						"h": 69
-					},
-					"spriteSourceSize": {
-						"x": 7,
-						"y": 2,
-						"w": 45,
-						"h": 60
-					},
-					"frame": {
-						"x": 103,
-						"y": 1985,
-						"w": 45,
-						"h": 60
-					}
-				},
-				{
-					"filename": "gear.png",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 44,
-						"h": 44
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 44,
-						"h": 44
-					},
-					"frame": {
-						"x": 148,
-						"y": 1985,
-						"w": 44,
-						"h": 44
 					}
 				}
 			]
