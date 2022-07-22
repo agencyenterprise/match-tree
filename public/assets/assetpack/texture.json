@@ -1,0 +1,418 @@
+{
+	"textures": [
+		{
+			"image": "texture",
+			"format": "RGBA8888",
+			"size": {
+				"w": 2047,
+				"h": 2045
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "background.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1512,
+						"h": 982
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1512,
+						"h": 982
+					},
+					"frame": {
+						"x": 0,
+						"y": 0,
+						"w": 1512,
+						"h": 982
+					}
+				},
+				{
+					"filename": "scoreboard.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 503,
+						"h": 464
+					},
+					"spriteSourceSize": {
+						"x": 1,
+						"y": 1,
+						"w": 501,
+						"h": 462
+					},
+					"frame": {
+						"x": 1512,
+						"y": 0,
+						"w": 501,
+						"h": 462
+					}
+				},
+				{
+					"filename": "fork.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 35,
+						"h": 69
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 0,
+						"w": 30,
+						"h": 68
+					},
+					"frame": {
+						"x": 2013,
+						"y": 0,
+						"w": 30,
+						"h": 68
+					}
+				},
+				{
+					"filename": "money.png",
+					"rotated": true,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 15,
+						"h": 28
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 15,
+						"h": 28
+					},
+					"frame": {
+						"x": 2013,
+						"y": 68,
+						"w": 15,
+						"h": 28
+					}
+				},
+				{
+					"filename": "plus.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 26,
+						"h": 26
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 26,
+						"h": 26
+					},
+					"frame": {
+						"x": 2013,
+						"y": 83,
+						"w": 26,
+						"h": 26
+					}
+				},
+				{
+					"filename": "Frame.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 36,
+						"h": 74
+					},
+					"spriteSourceSize": {
+						"x": 6,
+						"y": 1,
+						"w": 25,
+						"h": 71
+					},
+					"frame": {
+						"x": 2013,
+						"y": 109,
+						"w": 25,
+						"h": 71
+					}
+				},
+				{
+					"filename": "banner.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 381,
+						"h": 113
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 381,
+						"h": 113
+					},
+					"frame": {
+						"x": 1512,
+						"y": 462,
+						"w": 381,
+						"h": 113
+					}
+				},
+				{
+					"filename": "treescore.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 117,
+						"h": 112
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 117,
+						"h": 112
+					},
+					"frame": {
+						"x": 1893,
+						"y": 462,
+						"w": 117,
+						"h": 112
+					}
+				},
+				{
+					"filename": "blackseed.png",
+					"rotated": true,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 62,
+						"h": 37
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 62,
+						"h": 37
+					},
+					"frame": {
+						"x": 2010,
+						"y": 462,
+						"w": 62,
+						"h": 37
+					}
+				},
+				{
+					"filename": "levelcoin.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 103,
+						"h": 101
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 102,
+						"h": 101
+					},
+					"frame": {
+						"x": 1893,
+						"y": 574,
+						"w": 102,
+						"h": 101
+					}
+				},
+				{
+					"filename": "heart.png",
+					"rotated": true,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 57,
+						"h": 52
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 57,
+						"h": 52
+					},
+					"frame": {
+						"x": 1995,
+						"y": 574,
+						"w": 57,
+						"h": 52
+					}
+				},
+				{
+					"filename": "greenseed.png",
+					"rotated": true,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 49,
+						"h": 51
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 49,
+						"h": 51
+					},
+					"frame": {
+						"x": 1995,
+						"y": 631,
+						"w": 49,
+						"h": 51
+					}
+				},
+				{
+					"filename": "map.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 692,
+						"h": 908
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 692,
+						"h": 908
+					},
+					"frame": {
+						"x": 0,
+						"y": 982,
+						"w": 692,
+						"h": 908
+					}
+				},
+				{
+					"filename": "woodcircle.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 92,
+						"h": 100
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 92,
+						"h": 100
+					},
+					"frame": {
+						"x": 0,
+						"y": 1890,
+						"w": 92,
+						"h": 100
+					}
+				},
+				{
+					"filename": "lightning.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 45,
+						"h": 54
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 54
+					},
+					"frame": {
+						"x": 0,
+						"y": 1990,
+						"w": 44,
+						"h": 54
+					}
+				},
+				{
+					"filename": "yellowseed.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 68,
+						"h": 58
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 5,
+						"w": 59,
+						"h": 46
+					},
+					"frame": {
+						"x": 44,
+						"y": 1990,
+						"w": 59,
+						"h": 46
+					}
+				},
+				{
+					"filename": "lives.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 190,
+						"h": 95
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 190,
+						"h": 95
+					},
+					"frame": {
+						"x": 92,
+						"y": 1890,
+						"w": 190,
+						"h": 95
+					}
+				},
+				{
+					"filename": "axe.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 54,
+						"h": 69
+					},
+					"spriteSourceSize": {
+						"x": 7,
+						"y": 2,
+						"w": 45,
+						"h": 60
+					},
+					"frame": {
+						"x": 103,
+						"y": 1985,
+						"w": 45,
+						"h": 60
+					}
+				},
+				{
+					"filename": "gear.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 44,
+						"h": 44
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 44,
+						"h": 44
+					},
+					"frame": {
+						"x": 148,
+						"y": 1985,
+						"w": 44,
+						"h": 44
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "http://free-tex-packer.com",
+		"version": "0.6.7"
+	}
+}
