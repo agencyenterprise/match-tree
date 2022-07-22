@@ -4,7 +4,7 @@ it('create a board and inits a board', () => {
   expect(gamemanager.boardSize).toEqual(10);
   expect(gamemanager.seeds.length).toEqual(10);
   expect(gamemanager.seeds[9].length).toEqual(10);
-  console.log(gamemanager.seeds)
+  console.log(gamemanager.seeds);
 });
 
 it('can override init seeds', () => {

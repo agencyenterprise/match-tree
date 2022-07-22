@@ -8,9 +8,7 @@ export interface IToClear {
   seeds: ISeed[];
   isBost?: 'axe' | 'fork' | 'shovel';
 }
-export const SeedsTypesAsArr = [
-  "corn","green","black"
-]
+export const SeedsTypesAsArr = ['corn', 'green', 'black'];
 
 export interface IMove {
   row: number;
@@ -21,7 +19,7 @@ export interface IMove {
 }
 
 export interface IGameState {
-  seeds: ISeed [][];
+  seeds: ISeed[][];
   moves: IMove[];
   boardSize: number;
   isMoving: boolean;

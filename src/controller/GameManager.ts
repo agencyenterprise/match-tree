@@ -6,22 +6,22 @@ import {
   IToClear,
   SeedsTypesAsArr
 } from './interfaces';
-import lodash from "lodash"
+import lodash from 'lodash';
 export class GameManager implements IGameState, IGameFunctions {
   seeds: ISeed[][];
   moves: IMove[];
   boardSize: number;
   isMoving: boolean;
 
-  constructor(boardSize: number =10, seeds?: ISeed[][]) {
+  constructor(boardSize: number = 10, seeds?: ISeed[][]) {
     this.moves = [];
     this.isMoving = false;
     if (!seeds) {
       this.boardSize = boardSize;
       this.seeds = this.init(this.boardSize);
     } else {
-        this.seeds = seeds;
-        this.boardSize = seeds.length;
+      this.seeds = seeds;
+      this.boardSize = seeds.length;
     }
   }
   init = (size: number) => {
@@ -53,10 +53,7 @@ export class GameManager implements IGameState, IGameFunctions {
 
     return { move };
   };
-  getMatchingRows =() =>{
-    
-
-  }
+  getMatchingRows = () => {};
 
   spawnSeeds = () => {};
   getLives = () => 0;
