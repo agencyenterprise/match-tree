@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import GameGrid from '../grid/Gird';
+import GameGrid from '../grid/Grid';
 
 interface Square {
   type: 'apple' | 'cherry' | 'peach';

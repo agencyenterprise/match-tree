@@ -6,7 +6,7 @@ import {
   IToClear,
   SeedsTypesAsArr
 } from './interfaces';
-import lodash from 'lodash';
+import _ from 'lodash';
 export class GameManager implements IGameState, IGameFunctions {
   seeds: ISeed[][];
   moves: IMove[];
