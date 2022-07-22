@@ -68,15 +68,7 @@ describe('when matching cols', () => {
         ['g', 'g', 'g', 'c']
       )
     });
-    expect(gamemanager.getMatchingCols()).toEqual([
-      { col: 0, row: 0, type: 'black' },
-      { col: 1, row: 0, type: 'black' },
-      { col: 2, row: 0, type: 'black' },
-      { col: 0, row: 2, type: 'green' },
-      { col: 1, row: 2, type: 'green' },
-      { col: 2, row: 2, type: 'green' },
-      { col: 3, row: 2, type: 'green' }
-    ]);
+    expect(gamemanager.getMatchingCols()).toMatchSnapshot();
   });
 
   it('can get matching cols when some are null', () => {
@@ -90,15 +82,7 @@ describe('when matching cols', () => {
           ['g', 'g', 'g', 'c']
         )
       )
-    ).toEqual([
-      { col: 0, row: 0, type: 'black' },
-      { col: 1, row: 0, type: 'black' },
-      { col: 2, row: 0, type: 'black' },
-      { col: 0, row: 2, type: 'green' },
-      { col: 1, row: 2, type: 'green' },
-      { col: 2, row: 2, type: 'green' },
-      { col: 3, row: 2, type: 'green' }
-    ]);
+    ).toMatchSnapshot();
   });
 
   it('returns empty array if no matches', () => {
@@ -124,15 +108,7 @@ describe('when matching rows', () => {
         ['g', 'c', 'g', 'c']
       )
     });
-    expect(gamemanager.getMatchingRows()).toEqual([
-      { col: 0, row: 0, type: 'black' },
-      { col: 0, row: 1, type: 'black' },
-      { col: 0, row: 2, type: 'black' },
-      { col: 2, row: 0, type: 'green' },
-      { col: 2, row: 1, type: 'green' },
-      { col: 2, row: 2, type: 'green' },
-      { col: 2, row: 3, type: 'green' }
-    ]);
+    expect(gamemanager.getMatchingRows()).toMatchSnapshot();
   });
 
   it('can get matching rows when some are null', () => {
@@ -146,15 +122,7 @@ describe('when matching rows', () => {
           ['g', 'c', 'g', 'c']
         )
       )
-    ).toEqual([
-      { col: 0, row: 0, type: 'black' },
-      { col: 0, row: 1, type: 'black' },
-      { col: 0, row: 2, type: 'black' },
-      { col: 2, row: 0, type: 'green' },
-      { col: 2, row: 1, type: 'green' },
-      { col: 2, row: 2, type: 'green' },
-      { col: 2, row: 3, type: 'green' }
-    ]);
+    ).toMatchSnapshot();
   });
 
   it('returns empty array if no matches', () => {
@@ -179,15 +147,7 @@ it('can get matching for both rows and cols', () => {
       ['g', 'c', 'g', 'c']
     )
   });
-  expect(gamemanager.getMatching()).toEqual([
-    { col: 0, row: 1, type: 'corn' },
-    { col: 1, row: 1, type: 'corn' },
-    { col: 2, row: 1, type: 'corn' },
-    { col: 3, row: 1, type: 'corn' },
-    { col: 1, row: 2, type: 'green' },
-    { col: 2, row: 2, type: 'green' },
-    { col: 3, row: 2, type: 'green' }
-  ]);
+  expect(gamemanager.getMatching()).toMatchSnapshot();
 });
 
 it('can try a valid move', () => {
@@ -206,26 +166,21 @@ it('can try a valid move', () => {
       targetCol: 1,
       targetRow: 0
     })
-  ).toEqual({
-    move: { col: 0, row: 0, targetCol: 1, targetRow: 0, isValid: true },
-    matching: {
-      seeds: [
-        { col: 1, row: 0, type: 'black' },
-        { col: 1, row: 1, type: 'black' },
-        { col: 1, row: 2, type: 'black' }
-      ]
-    }
-  });
+  ).toMatchSnapshot();
 });
 
-it('try move finds a valid move', () => {
+it('can see if there is any move', () => {
   const gamemanager = new GameManager({
-    minMatch: 2,
-    seeds: generateSeeds(['b', 'c'], ['c', 'b'])
+    seeds: generateSeeds(
+      ['b', 'c', 'b', 'g'],
+      ['c', 'b', 'b', 'g'],
+      ['g', 'c', 'g', 'c'],
+      ['g', 'b', 'g', 'c']
+    )
   });
 
   const moves = gamemanager.hasMove();
-  expect(moves.length).toBeTruthy();
+  expect(moves).toMatchSnapshot();
 });
 
 describe('when spawning new seeds', () => {

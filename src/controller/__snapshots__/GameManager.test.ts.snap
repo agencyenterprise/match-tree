@@ -1,0 +1,377 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`can get matching for both rows and cols 1`] = `
+Array [
+  Object {
+    "col": 0,
+    "row": 1,
+    "type": "corn",
+  },
+  Object {
+    "col": 1,
+    "row": 1,
+    "type": "corn",
+  },
+  Object {
+    "col": 2,
+    "row": 1,
+    "type": "corn",
+  },
+  Object {
+    "col": 3,
+    "row": 1,
+    "type": "corn",
+  },
+  Object {
+    "col": 1,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 3,
+    "row": 2,
+    "type": "green",
+  },
+]
+`;
+
+exports[`can see if there is any move 1`] = `
+Array [
+  Object {
+    "matching": Object {
+      "seeds": Array [
+        Object {
+          "col": 1,
+          "row": 0,
+          "type": "black",
+        },
+        Object {
+          "col": 1,
+          "row": 1,
+          "type": "black",
+        },
+        Object {
+          "col": 1,
+          "row": 2,
+          "type": "black",
+        },
+      ],
+    },
+    "move": Object {
+      "col": 0,
+      "isValid": true,
+      "row": 0,
+      "targetCol": 1,
+      "targetRow": 0,
+    },
+  },
+  Object {
+    "matching": Object {
+      "seeds": Array [
+        Object {
+          "col": 0,
+          "row": 0,
+          "type": "black",
+        },
+        Object {
+          "col": 0,
+          "row": 1,
+          "type": "black",
+        },
+        Object {
+          "col": 0,
+          "row": 2,
+          "type": "black",
+        },
+      ],
+    },
+    "move": Object {
+      "col": 0,
+      "isValid": true,
+      "row": 1,
+      "targetCol": 1,
+      "targetRow": 1,
+    },
+  },
+  Object {
+    "matching": Object {
+      "seeds": Array [
+        Object {
+          "col": 0,
+          "row": 1,
+          "type": "corn",
+        },
+        Object {
+          "col": 1,
+          "row": 1,
+          "type": "corn",
+        },
+        Object {
+          "col": 2,
+          "row": 1,
+          "type": "corn",
+        },
+      ],
+    },
+    "move": Object {
+      "col": 1,
+      "isValid": true,
+      "row": 0,
+      "targetCol": 1,
+      "targetRow": 1,
+    },
+  },
+  Object {
+    "matching": Object {
+      "seeds": Array [
+        Object {
+          "col": 1,
+          "row": 2,
+          "type": "green",
+        },
+        Object {
+          "col": 2,
+          "row": 2,
+          "type": "green",
+        },
+        Object {
+          "col": 3,
+          "row": 2,
+          "type": "green",
+        },
+      ],
+    },
+    "move": Object {
+      "col": 1,
+      "isValid": true,
+      "row": 2,
+      "targetCol": 1,
+      "targetRow": 3,
+    },
+  },
+  Object {
+    "matching": Object {
+      "seeds": Array [
+        Object {
+          "col": 0,
+          "row": 3,
+          "type": "green",
+        },
+        Object {
+          "col": 1,
+          "row": 3,
+          "type": "green",
+        },
+        Object {
+          "col": 2,
+          "row": 3,
+          "type": "green",
+        },
+      ],
+    },
+    "move": Object {
+      "col": 2,
+      "isValid": true,
+      "row": 2,
+      "targetCol": 2,
+      "targetRow": 3,
+    },
+  },
+]
+`;
+
+exports[`can try a valid move 1`] = `
+Object {
+  "matching": Object {
+    "seeds": Array [
+      Object {
+        "col": 1,
+        "row": 0,
+        "type": "black",
+      },
+      Object {
+        "col": 1,
+        "row": 1,
+        "type": "black",
+      },
+      Object {
+        "col": 1,
+        "row": 2,
+        "type": "black",
+      },
+    ],
+  },
+  "move": Object {
+    "col": 0,
+    "isValid": true,
+    "row": 0,
+    "targetCol": 1,
+    "targetRow": 0,
+  },
+}
+`;
+
+exports[`when matching cols can get matching cols 1`] = `
+Array [
+  Object {
+    "col": 0,
+    "row": 0,
+    "type": "black",
+  },
+  Object {
+    "col": 1,
+    "row": 0,
+    "type": "black",
+  },
+  Object {
+    "col": 2,
+    "row": 0,
+    "type": "black",
+  },
+  Object {
+    "col": 0,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 1,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 3,
+    "row": 2,
+    "type": "green",
+  },
+]
+`;
+
+exports[`when matching cols can get matching cols when some are null 1`] = `
+Array [
+  Object {
+    "col": 0,
+    "row": 0,
+    "type": "black",
+  },
+  Object {
+    "col": 1,
+    "row": 0,
+    "type": "black",
+  },
+  Object {
+    "col": 2,
+    "row": 0,
+    "type": "black",
+  },
+  Object {
+    "col": 0,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 1,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 3,
+    "row": 2,
+    "type": "green",
+  },
+]
+`;
+
+exports[`when matching rows can get matching rows 1`] = `
+Array [
+  Object {
+    "col": 0,
+    "row": 0,
+    "type": "black",
+  },
+  Object {
+    "col": 0,
+    "row": 1,
+    "type": "black",
+  },
+  Object {
+    "col": 0,
+    "row": 2,
+    "type": "black",
+  },
+  Object {
+    "col": 2,
+    "row": 0,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 1,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 3,
+    "type": "green",
+  },
+]
+`;
+
+exports[`when matching rows can get matching rows when some are null 1`] = `
+Array [
+  Object {
+    "col": 0,
+    "row": 0,
+    "type": "black",
+  },
+  Object {
+    "col": 0,
+    "row": 1,
+    "type": "black",
+  },
+  Object {
+    "col": 0,
+    "row": 2,
+    "type": "black",
+  },
+  Object {
+    "col": 2,
+    "row": 0,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 1,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 2,
+    "type": "green",
+  },
+  Object {
+    "col": 2,
+    "row": 3,
+    "type": "green",
+  },
+]
+`;
