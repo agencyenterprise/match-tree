@@ -29,7 +29,9 @@ export class GameManager implements IGameState, IGameFunctions {
     this.minMatch = minMatch;
     if (!seeds) {
       this.boardSize = boardSize;
-      this.seeds = this.spawnSeeds({ allowMatching: false });
+      do {
+        this.seeds = this.spawnSeeds({ allowMatching: false });
+      } while (!this.hasMove().length);
     } else {
       this.seeds = seeds;
       this.boardSize = seeds.length;
