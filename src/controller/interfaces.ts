@@ -26,7 +26,7 @@ export interface IGameState {
 }
 
 export interface IGameFunctions {
-  hasMove: () => boolean;
+  hasMove: () => { move: IMove; matching?: IToClear }[];
   tryMove(move: Omit<IMove, 'isValid'>): { move: IMove; matching?: IToClear };
   spawnSeeds: () => void;
   getLives: () => number;
