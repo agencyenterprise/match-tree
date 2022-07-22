@@ -30,7 +30,10 @@ export interface IGameState {
 export interface IGameFunctions {
   hasMove: () => { move: IMove; matching?: IToClear }[];
   tryMove(move: Omit<IMove, 'isValid'>): { move: IMove; matching?: IToClear };
-  spawnSeeds: (seeds: (ISeed | null)[][]) => ISeed[][];
+  spawnSeeds: (args: {
+    seeds?: (ISeed | null)[][] | null;
+    allowMatching?: boolean;
+  }) => ISeed[][];
   getLives: () => number;
   getScore: () => number;
   updateMatching: (matching: IToClear) => void;

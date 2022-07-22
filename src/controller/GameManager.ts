@@ -29,7 +29,7 @@ export class GameManager implements IGameState, IGameFunctions {
     this.minMatch = minMatch;
     if (!seeds) {
       this.boardSize = boardSize;
-      this.seeds = this.spawnSeeds();
+      this.seeds = this.spawnSeeds(/* { allowMatching: false } */);
     } else {
       this.seeds = seeds;
       this.boardSize = seeds.length;
@@ -160,10 +160,13 @@ export class GameManager implements IGameState, IGameFunctions {
     return _.uniq(matching);
   };
 
-  spawnSeeds = (
-    seeds: (ISeed | null)[][] | null = null,
-    allowMatching: boolean = true
-  ): ISeed[][] => {
+  spawnSeeds = ({
+    seeds = null,
+    allowMatching = true
+  }: {
+    seeds?: (ISeed | null)[][] | null;
+    allowMatching?: boolean;
+  } = {}): ISeed[][] => {
     let newSeeds: (ISeed | null)[][];
     if (seeds) {
       newSeeds = _.cloneDeep(seeds);
