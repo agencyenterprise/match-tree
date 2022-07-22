@@ -19,8 +19,8 @@ export class GameManager implements IGameState, IGameFunctions {
     minMatch = 3,
     seeds = undefined
   }: {
-    boardSize: number;
-    minMatch: number;
+    boardSize?: number;
+    minMatch?: number;
     seeds?: ISeed[][];
   }) {
     this.moves = [];
