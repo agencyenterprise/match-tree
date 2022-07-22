@@ -1,6 +1,6 @@
 import { GameManager } from './GameManager';
 import * as _ from 'lodash';
-import { SeedType } from './interfaces';
+import { SeedType, ISeed } from './interfaces';
 
 const shorthandTypeToSeedType = (type: 'b' | 'c' | 'g'): SeedType => {
   switch (type) {
@@ -12,16 +12,6 @@ const shorthandTypeToSeedType = (type: 'b' | 'c' | 'g'): SeedType => {
       return 'green';
   }
 };
-
-const generateSeeds = (...types: ('b' | 'c' | 'g')[][]) =>
-  types.map((col, i) =>
-    col.map((type, j) => ({
-      col: i,
-      row: j,
-      type: shorthandTypeToSeedType(type)
-    }))
-  );
-
 const generateSeedsNullable = (...types: ('b' | 'c' | 'g' | null)[][]) =>
   types.map((col, i) =>
     col.map((type, j) =>
@@ -34,6 +24,8 @@ const generateSeedsNullable = (...types: ('b' | 'c' | 'g' | null)[][]) =>
         : null
     )
   );
+const generateSeeds = (...types: ('b' | 'c' | 'g')[][]) =>
+  generateSeedsNullable(...types) as ISeed[][];
 
 it('create a board and inits a board', () => {
   const gamemanager = new GameManager({ boardSize: 10 });
