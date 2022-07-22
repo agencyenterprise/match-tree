@@ -8,6 +8,7 @@ import {
   SeedType
 } from './interfaces';
 import * as _ from 'lodash';
+
 export class GameManager implements IGameState, IGameFunctions {
   seeds: ISeed[][];
   moves: IMove[];
@@ -24,6 +25,14 @@ export class GameManager implements IGameState, IGameFunctions {
     minMatch?: number;
     seeds?: ISeed[][];
   } = {}) {
+    if (
+      seeds &&
+      (seeds.length !== boardSize ||
+        seeds.some((col) => col.length !== boardSize))
+    ) {
+      throw new Error('board size must match seeds dimensions');
+    }
+
     this.moves = [];
     this.isMoving = false;
     this.minMatch = minMatch;
@@ -44,9 +53,9 @@ export class GameManager implements IGameState, IGameFunctions {
 
   hasMove = () => {
     const moves: { move: IMove; matching?: IToClear }[] = [];
-    for (let i = 0; i < this.seeds.length; i++) {
-      for (let j = 0; j < this.seeds.length; j++) {
-        if (i + 1 < this.seeds.length) {
+    for (let i = 0; i < this.boardSize; i++) {
+      for (let j = 0; j < this.boardSize; j++) {
+        if (i + 1 < this.boardSize) {
           const move = this.tryMove({
             col: i,
             row: j,
@@ -58,7 +67,7 @@ export class GameManager implements IGameState, IGameFunctions {
           }
         }
 
-        if (j + 1 < this.seeds.length) {
+        if (j + 1 < this.boardSize) {
           const move = this.tryMove({
             col: i,
             row: j,
@@ -81,11 +90,10 @@ export class GameManager implements IGameState, IGameFunctions {
     const colMov = Math.abs(move.col - move.targetCol);
     const rowMov = Math.abs(move.row - move.targetRow);
     if (
-      (colMov === 0 && rowMov == 0) || // Move to same spot
+      (!colMov && !rowMov) || // Move to same spot
+      (colMov && rowMov) || // Trying to move diagonally
       colMov > 1 || // Jumping a spot
-      rowMov > 1 ||
-      (colMov === 1 && rowMov !== 0) || // Trying to move diagonally
-      (rowMov === 1 && colMov !== 0)
+      rowMov > 1
     ) {
       return { move: { ...move, isValid: false } };
     }
@@ -111,42 +119,48 @@ export class GameManager implements IGameState, IGameFunctions {
       return { move: { ...move, isValid: false } };
     }
   };
+
+  createEmptySeeds = (): null[][] => {
+    const newSeeds = [];
+    for (let i = 0; i < this.boardSize; ++i) {
+      newSeeds.push(Array(this.boardSize).fill(null) as null[]);
+    }
+    return newSeeds;
+  };
+
   getMatchingCols = (seeds: (ISeed | null)[][] = this.seeds) => {
-    const seedRows: (ISeed | null)[][] = [];
-    seeds.forEach((cols) => {
-      cols.forEach((seed, rowIndex) => {
-        if (!seedRows[rowIndex]) {
-          seedRows[rowIndex] = [];
-        }
-        seedRows[rowIndex].push(seed);
-      });
-    });
-    return this.getMatchingRows(seedRows);
+    const seedsTransposed: (ISeed | null)[][] = this.createEmptySeeds();
+    for (let i = 0; i < this.boardSize; ++i) {
+      for (let j = 0; j < this.boardSize; ++j) {
+        seedsTransposed[j][i] = seeds[i][j];
+      }
+    }
+    return this.getMatchingRows(seedsTransposed);
   };
   getMatchingRows = (seeds: (ISeed | null)[][] = this.seeds) => {
     const matchingSeeds: ISeed[] = [];
-    seeds.forEach((col) => {
+    for (let i = 0; i < this.boardSize; ++i) {
       let latestSeedType: string | null = null;
       let counter = 1;
-      col.forEach((seed, seedIndex) => {
+      const col = seeds[i];
+      for (let j = 0; j < this.boardSize; ++j) {
+        const seed = seeds[i][j];
         if (seed?.type === latestSeedType) {
           counter += 1;
-          if (seedIndex >= col.length - 1 && counter >= this.minMatch) {
+          if (j >= this.boardSize - 1 && counter >= this.minMatch) {
             matchingSeeds.push(
-              ...(col.slice(seedIndex - counter + 1, seedIndex + 1) as ISeed[])
+              ...(col.slice(j - counter + 1, j + 1) as ISeed[])
             );
           }
         } else {
           if (counter >= this.minMatch) {
-            matchingSeeds.push(
-              ...(col.slice(seedIndex - this.minMatch, seedIndex) as ISeed[])
-            );
+            matchingSeeds.push(...(col.slice(j - this.minMatch, j) as ISeed[]));
           }
           counter = seed ? 1 : 0;
         }
         latestSeedType = seed?.type ?? null;
-      });
-    });
+      }
+    }
     return matchingSeeds;
   };
 
@@ -165,18 +179,7 @@ export class GameManager implements IGameState, IGameFunctions {
     seeds?: (ISeed | null)[][] | null;
     allowMatching?: boolean;
   } = {}): ISeed[][] => {
-    let newSeeds: (ISeed | null)[][];
-    if (seeds) {
-      newSeeds = _.cloneDeep(seeds);
-    } else {
-      newSeeds = [];
-      for (let i = 0; i < this.boardSize; ++i) {
-        newSeeds.push([]);
-        for (let j = 0; j < this.boardSize; ++j) {
-          newSeeds[i] = Array(this.boardSize).fill(null) as null[];
-        }
-      }
-    }
+    let newSeeds = seeds ? _.cloneDeep(seeds) : this.createEmptySeeds();
     for (let i = 0; i < this.boardSize; ++i) {
       for (let j = 0; j < this.boardSize; ++j) {
         const seed = seeds?.[i][j];
