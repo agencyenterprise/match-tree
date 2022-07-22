@@ -245,25 +245,67 @@ it('try move finds a valid move', () => {
   console.log(JSON.stringify(moves));
 });
 
-it('can spawn new seeds to fill missing cells', () => {
-  const gamemanager = new GameManager({
-    boardSize: 4,
-    minMatch: 3
-  });
-  const originalSeeds = generateSeedsNullable(
-    ['b', 'c', null, 'g'],
-    ['c', 'b', 'b', 'g'],
-    [null, null, 'g', 'c'],
-    ['g', 'b', null, null]
-  );
-  const newSeeds = gamemanager.spawnSeeds({ seeds: originalSeeds });
-  expect(
-    newSeeds.every((col, i) =>
-      col.every(
-        (seed, j) =>
-          seed &&
-          (originalSeeds[i][j] === null || _.isEqual(originalSeeds[i][j], seed))
+describe('when spawning new seeds', () => {
+  it('can spawn new seeds to fill missing cells', () => {
+    const gamemanager = new GameManager({
+      boardSize: 4,
+      minMatch: 3
+    });
+    const originalSeeds = generateSeedsNullable(
+      ['b', 'c', null, 'g'],
+      ['c', 'b', 'b', 'g'],
+      [null, null, 'g', 'c'],
+      ['g', 'b', null, null]
+    );
+    const newSeeds = gamemanager.spawnSeeds({ seeds: originalSeeds });
+    expect(
+      newSeeds.every((col, i) =>
+        col.every(
+          (seed, j) =>
+            seed &&
+            (originalSeeds[i][j] === null ||
+              _.isEqual(originalSeeds[i][j], seed))
+        )
       )
-    )
-  ).toBeTruthy();
+    ).toBeTruthy();
+  });
+
+  it('can spawn new seeds when matching is not allowed', () => {
+    const gamemanager = new GameManager({
+      boardSize: 4,
+      minMatch: 3
+    });
+    const originalSeeds = generateSeedsNullable(
+      ['b', 'c', null, 'g'],
+      ['c', 'b', 'b', 'g'],
+      [null, null, 'g', 'c'],
+      ['g', 'b', null, null]
+    );
+    const newSeeds = gamemanager.spawnSeeds({
+      seeds: originalSeeds,
+      allowMatching: false
+    });
+    expect(gamemanager.getMatching(newSeeds).length).toEqual(0);
+    expect(
+      newSeeds.every((col, i) =>
+        col.every(
+          (seed, j) =>
+            seed &&
+            (originalSeeds[i][j] === null ||
+              _.isEqual(originalSeeds[i][j], seed))
+        )
+      )
+    ).toBeTruthy();
+  });
+
+  it('can spawn new seeds on board init', () => {
+    const gamemanager = new GameManager();
+    expect(gamemanager.getMatching().length).toEqual(0);
+    expect(gamemanager.seeds.length).toEqual(10);
+    gamemanager.seeds.every((col) => expect(col.length).toEqual(10));
+    expect(
+      gamemanager.seeds.every((col) => col.every((seed) => seed))
+    ).toBeTruthy();
+    expect(gamemanager.hasMove().length).toBeTruthy();
+  });
 });

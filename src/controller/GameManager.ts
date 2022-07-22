@@ -18,18 +18,18 @@ export class GameManager implements IGameState, IGameFunctions {
   constructor({
     boardSize = 10,
     minMatch = 3,
-    seeds = undefined
+    seeds
   }: {
     boardSize?: number;
     minMatch?: number;
     seeds?: ISeed[][];
-  }) {
+  } = {}) {
     this.moves = [];
     this.isMoving = false;
     this.minMatch = minMatch;
     if (!seeds) {
       this.boardSize = boardSize;
-      this.seeds = this.spawnSeeds(/* { allowMatching: false } */);
+      this.seeds = this.spawnSeeds({ allowMatching: false });
     } else {
       this.seeds = seeds;
       this.boardSize = seeds.length;
@@ -37,9 +37,7 @@ export class GameManager implements IGameState, IGameFunctions {
   }
 
   getRandomSeed = () => {
-    return SeedsTypesAsArr[
-      Math.floor(Math.random() * SeedsTypesAsArr.length)
-    ] as SeedType;
+    return SeedsTypesAsArr[Math.floor(Math.random() * SeedsTypesAsArr.length)];
   };
 
   hasMove = () => {
@@ -129,9 +127,7 @@ export class GameManager implements IGameState, IGameFunctions {
       let latestSeedType: string | null = null;
       let counter = 1;
       col.forEach((seed, seedIndex) => {
-        if (!seed) {
-          counter = 0;
-        } else if (seed.type === latestSeedType) {
+        if (seed?.type === latestSeedType) {
           counter += 1;
           if (seedIndex >= col.length - 1 && counter >= this.minMatch) {
             matchingSeeds.push(
@@ -144,7 +140,7 @@ export class GameManager implements IGameState, IGameFunctions {
               ...(col.slice(seedIndex - this.minMatch, seedIndex) as ISeed[])
             );
           }
-          counter = 1;
+          counter = seed ? 1 : 0;
         }
         latestSeedType = seed?.type ?? null;
       });
