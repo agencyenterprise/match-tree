@@ -89,14 +89,13 @@ export class GameManager implements IGameState, IGameFunctions {
   ): { move: IMove; matching?: IToClear } => {
     const colMov = Math.abs(move.col - move.targetCol);
     const rowMov = Math.abs(move.row - move.targetRow);
-    if (colMov === 0 && rowMov == 0) {
-      return { move: { ...move, isValid: false } };
-    }
-    if (colMov > 1) {
-      return { move: { ...move, isValid: false } };
-    }
-
-    if (rowMov > 1) {
+    if (
+      (colMov === 0 && rowMov == 0) || // Move to same spot
+      colMov > 1 || // Jumping a spot
+      rowMov > 1 ||
+      (colMov === 1 && rowMov !== 0) || // Trying to move diagonally
+      (rowMov === 1 && colMov !== 0)
+    ) {
       return { move: { ...move, isValid: false } };
     }
 
