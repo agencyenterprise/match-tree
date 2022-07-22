@@ -126,3 +126,41 @@ it('can get matching rows', () => {
     { col: 2, row: 3, type: 'green' }
   ]);
 });
+
+it('can get matching rows', () => {
+  const gamemanager = new GameManager(0, [
+    [
+      { col: 0, row: 0, type: 'black' },
+      { col: 0, row: 1, type: 'corn' },
+      { col: 0, row: 2, type: 'black' },
+      { col: 0, row: 3, type: 'green' }
+    ],
+    [
+      { col: 1, row: 0, type: 'corn' },
+      { col: 1, row: 1, type: 'corn' },
+      { col: 1, row: 2, type: 'green' },
+      { col: 1, row: 3, type: 'green' }
+    ],
+    [
+      { col: 2, row: 0, type: 'green' },
+      { col: 2, row: 1, type: 'corn' },
+      { col: 2, row: 2, type: 'green' },
+      { col: 2, row: 3, type: 'corn' }
+    ],
+    [
+      { col: 3, row: 0, type: 'green' },
+      { col: 3, row: 1, type: 'corn' },
+      { col: 3, row: 2, type: 'green' },
+      { col: 3, row: 3, type: 'corn' }
+    ]
+  ]);
+  expect(gamemanager.getMatching()).toEqual([
+    { col: 0, row: 1, type: 'corn' },
+    { col: 1, row: 1, type: 'corn' },
+    { col: 2, row: 1, type: 'corn' },
+    { col: 3, row: 1, type: 'corn' },
+    { col: 1, row: 2, type: 'green' },
+    { col: 2, row: 2, type: 'green' },
+    { col: 3, row: 2, type: 'green' }
+  ]);
+});

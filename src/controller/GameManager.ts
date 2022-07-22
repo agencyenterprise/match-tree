@@ -6,7 +6,7 @@ import {
   IToClear,
   SeedsTypesAsArr
 } from './interfaces';
-import _ from 'lodash';
+import * as _ from 'lodash';
 export class GameManager implements IGameState, IGameFunctions {
   seeds: ISeed[][];
   moves: IMove[];
@@ -110,6 +110,11 @@ export class GameManager implements IGameState, IGameFunctions {
       });
     });
     return matchingSeeds;
+  };
+
+  getMatching = () => {
+    const matching = [...this.getMatchingCols(), ...this.getMatchingRows()];
+    return _.uniq(matching);
   };
 
   spawnSeeds = () => {};
