@@ -53,7 +53,64 @@ export class GameManager implements IGameState, IGameFunctions {
 
     return { move };
   };
-  getMatchingRows = () => {};
+  getMatchingCols = () => {
+    const seedRows: ISeed[][] = [];
+    this.seeds.forEach((cols) => {
+      cols.forEach((seed, rowIndex) => {
+        if (!seedRows[rowIndex]) {
+          seedRows[rowIndex] = [];
+        }
+        seedRows[rowIndex].push(seed);
+      });
+    });
+
+    const matchingSeeds: ISeed[] = [];
+    seedRows.forEach((row) => {
+      let latestSeedType: string = '';
+      let counter = 1;
+      row.forEach((seed, seedIndex) => {
+        if (seed.type === latestSeedType) {
+          counter += 1;
+          if (seedIndex >= row.length - 1 && counter >= 3) {
+            matchingSeeds.push(
+              ...row.slice(seedIndex - counter + 1, seedIndex + 1)
+            );
+          }
+        } else {
+          if (counter >= 3) {
+            matchingSeeds.push(...row.slice(seedIndex - 3, seedIndex));
+          }
+          counter = 1;
+        }
+        latestSeedType = seed.type;
+      });
+    });
+    return matchingSeeds;
+  };
+  getMatchingRows = () => {
+    const matchingSeeds: ISeed[] = [];
+    this.seeds.forEach((col) => {
+      let latestSeedType: string = '';
+      let counter = 1;
+      col.forEach((seed, seedIndex) => {
+        if (seed.type === latestSeedType) {
+          counter += 1;
+          if (seedIndex >= col.length - 1 && counter >= 3) {
+            matchingSeeds.push(
+              ...col.slice(seedIndex - counter + 1, seedIndex + 1)
+            );
+          }
+        } else {
+          if (counter >= 3) {
+            matchingSeeds.push(...col.slice(seedIndex - 3, seedIndex));
+          }
+          counter = 1;
+        }
+        latestSeedType = seed.type;
+      });
+    });
+    return matchingSeeds;
+  };
 
   spawnSeeds = () => {};
   getLives = () => 0;
