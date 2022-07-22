@@ -114,16 +114,16 @@ export class GameManager implements IGameState, IGameFunctions {
       row: move.targetRow
     };
 
-    const seeds = this.getMatching();
+    const seeds = this.getMatching(newSeeds);
     if (seeds.length) {
       return { move: { ...move, isValid: true }, matching: { seeds } };
     } else {
       return { move: { ...move, isValid: false } };
     }
   };
-  getMatchingCols = () => {
+  getMatchingCols = (seeds = this.seeds) => {
     const seedRows: ISeed[][] = [];
-    this.seeds.forEach((cols) => {
+    seeds.forEach((cols) => {
       cols.forEach((seed, rowIndex) => {
         if (!seedRows[rowIndex]) {
           seedRows[rowIndex] = [];
@@ -131,35 +131,11 @@ export class GameManager implements IGameState, IGameFunctions {
         seedRows[rowIndex].push(seed);
       });
     });
-
-    const matchingSeeds: ISeed[] = [];
-    seedRows.forEach((row) => {
-      let latestSeedType: string = '';
-      let counter = 1;
-      row.forEach((seed, seedIndex) => {
-        if (seed.type === latestSeedType) {
-          counter += 1;
-          if (seedIndex >= row.length - 1 && counter >= this.minMatch) {
-            matchingSeeds.push(
-              ...row.slice(seedIndex - counter + 1, seedIndex + 1)
-            );
-          }
-        } else {
-          if (counter >= this.minMatch) {
-            matchingSeeds.push(
-              ...row.slice(seedIndex - this.minMatch, seedIndex)
-            );
-          }
-          counter = 1;
-        }
-        latestSeedType = seed.type;
-      });
-    });
-    return matchingSeeds;
+    return this.getMatchingRows(seedRows);
   };
-  getMatchingRows = () => {
+  getMatchingRows = (seeds = this.seeds) => {
     const matchingSeeds: ISeed[] = [];
-    this.seeds.forEach((col) => {
+    seeds.forEach((col) => {
       let latestSeedType: string = '';
       let counter = 1;
       col.forEach((seed, seedIndex) => {
@@ -184,8 +160,11 @@ export class GameManager implements IGameState, IGameFunctions {
     return matchingSeeds;
   };
 
-  getMatching = () => {
-    const matching = [...this.getMatchingCols(), ...this.getMatchingRows()];
+  getMatching = (seeds = this.seeds) => {
+    const matching = [
+      ...this.getMatchingCols(seeds),
+      ...this.getMatchingRows(seeds)
+    ];
     return _.uniq(matching);
   };
 
