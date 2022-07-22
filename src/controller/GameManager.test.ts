@@ -1,5 +1,6 @@
 import { GameManager } from './GameManager';
-import { ISeed } from './interfaces';
+import * as _ from 'lodash';
+
 it('create a board and inits a board', () => {
   const gamemanager = new GameManager({ boardSize: 10 });
   expect(gamemanager.boardSize).toEqual(10);
@@ -253,4 +254,47 @@ it('try move finds a valid move', () => {
 
   const moves = gamemanager.hasMove();
   console.log(JSON.stringify(moves));
+});
+
+it('can spawn new seeds to fill missing cells', () => {
+  const gamemanager = new GameManager({
+    boardSize: 4,
+    minMatch: 3
+  });
+  const originalSeeds = [
+    [
+      { col: 0, row: 0, type: 'black' },
+      { col: 0, row: 1, type: 'corn' },
+      null,
+      { col: 0, row: 3, type: 'green' }
+    ],
+    [
+      { col: 1, row: 0, type: 'corn' },
+      { col: 1, row: 1, type: 'black' },
+      { col: 1, row: 2, type: 'black' },
+      { col: 1, row: 3, type: 'green' }
+    ],
+    [
+      null,
+      null,
+      { col: 2, row: 2, type: 'green' },
+      { col: 2, row: 3, type: 'corn' }
+    ],
+    [
+      { col: 3, row: 0, type: 'green' },
+      { col: 3, row: 1, type: 'black' },
+      null,
+      null
+    ]
+  ];
+  const newSeeds = gamemanager.spawnSeeds(originalSeeds);
+  expect(
+    newSeeds.every((col, i) =>
+      col.every(
+        (seed, j) =>
+          seed &&
+          (originalSeeds[i][j] === null || _.isEqual(originalSeeds[i][j], seed))
+      )
+    )
+  ).toBeTruthy();
 });
