@@ -2,6 +2,9 @@ name: CI
 
 on: [push]
 
+env:
+  NODE_OPTIONS: --experimental-vm-modules
+
 jobs:
   build:
     name: Build and test
