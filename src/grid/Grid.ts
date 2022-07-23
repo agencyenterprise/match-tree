@@ -4,7 +4,10 @@ import { ISeed } from '../controller/interfaces';
 
 export default class GameGrid extends Phaser.GameObjects.Group {
   gm = new GameManager({ boardSize: 6 });
-  selected: { first?: {seed:ISeed, sprite:Phaser.GameObjects.Sprite}; second?: {seed:ISeed, sprite:Phaser.GameObjects.Sprite} } = {};
+  selected: {
+    first?: { seed: ISeed; sprite: Phaser.GameObjects.Sprite };
+    second?: { seed: ISeed; sprite: Phaser.GameObjects.Sprite };
+  } = {};
   constructor(scene: Phaser.Scene) {
     super(scene);
 
@@ -65,13 +68,13 @@ export default class GameGrid extends Phaser.GameObjects.Group {
     sprites.forEach((e) =>
       e.addListener('pointerdown', () => {
         e.setTint(0x999999);
-   
+
         if (!this.selected.first) {
-          this.selected.first = {seed: e.getData('cell'), sprite:e};
+          this.selected.first = { seed: e.getData('cell'), sprite: e };
         } else {
-          this.selected.second =  {seed: e.getData('cell'), sprite:e};
+          this.selected.second = { seed: e.getData('cell'), sprite: e };
         }
-        
+
         if (this.selected.first && this.selected.second) {
           this.selected.first.sprite.setTint(undefined);
           this.selected.second.sprite.setTint(undefined);

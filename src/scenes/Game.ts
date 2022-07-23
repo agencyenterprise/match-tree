@@ -51,7 +51,6 @@ export default class Demo extends Phaser.Scene {
     this.createBackground();
     this.add.existing(new GameGrid(this));
 
-
     //  img.height
     //  background.add()
   }
