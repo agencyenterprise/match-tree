@@ -194,30 +194,32 @@ describe('when getting matching for both rows and cols', () => {
   });
 });
 
-it.each`
-  col  | row  | targetCol | targetRow | isValid
-  ${0} | ${0} | ${1}      | ${0}      | ${true}
-  ${0} | ${2} | ${0}      | ${3}      | ${false}
-  ${0} | ${0} | ${0}      | ${0}      | ${false}
-  ${0} | ${0} | ${1}      | ${1}      | ${false}
-  ${0} | ${0} | ${2}      | ${0}      | ${false}
-  ${0} | ${0} | ${0}      | ${2}      | ${false}
-`(
-  'when trying move from ($col, $row) to ($targetCol, $targetRow), valid should be $isValid',
-  ({ col, row, targetCol, targetRow, isValid }) => {
-    const gamemanager = new GameManager({
-      seeds: generateSeeds(
-        ['b', 'c', 'b', 'g'],
-        ['c', 'b', 'b', 'g'],
-        ['g', 'c', 'g', 'c'],
-        ['g', 'b', 'g', 'c']
-      )
-    });
-    const result = gamemanager.tryMove({ col, row, targetCol, targetRow });
-    expect(result.move.isValid).toEqual(isValid);
-    expect(result).toMatchSnapshot();
-  }
-);
+describe('when trying move', () => {
+  it.each`
+    col  | row  | targetCol | targetRow | isValid
+    ${0} | ${0} | ${1}      | ${0}      | ${true}
+    ${0} | ${2} | ${0}      | ${3}      | ${false}
+    ${0} | ${0} | ${0}      | ${0}      | ${false}
+    ${0} | ${0} | ${1}      | ${1}      | ${false}
+    ${0} | ${0} | ${2}      | ${0}      | ${false}
+    ${0} | ${0} | ${0}      | ${2}      | ${false}
+  `(
+    'from ($col, $row) to ($targetCol, $targetRow), valid should be $isValid',
+    ({ col, row, targetCol, targetRow, isValid }) => {
+      const gamemanager = new GameManager({
+        seeds: generateSeeds(
+          ['b', 'c', 'b', 'g'],
+          ['c', 'b', 'b', 'g'],
+          ['g', 'c', 'g', 'c'],
+          ['g', 'b', 'g', 'c']
+        )
+      });
+      const result = gamemanager.tryMove({ col, row, targetCol, targetRow });
+      expect(result.move.isValid).toEqual(isValid);
+      expect(result).toMatchSnapshot();
+    }
+  );
+});
 
 describe('when spawning new seeds', () => {
   it('can spawn new seeds to fill missing cells', () => {
