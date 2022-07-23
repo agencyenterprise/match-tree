@@ -27,8 +27,7 @@ export class GameManager implements IGameState, IGameFunctions {
   } = {}) {
     if (
       seeds &&
-      seeds.some((col) => col.length !== seeds.length) &&
-      !seeds.length
+      (seeds.some((col) => col.length !== seeds.length) || !seeds.length)
     ) {
       throw new Error('seeds must be a square with some length');
     }

@@ -27,27 +27,63 @@ const generateSeedsNullable = (...types: ('b' | 'c' | 'g' | null)[][]) =>
 const generateSeeds = (...types: ('b' | 'c' | 'g')[][]) =>
   generateSeedsNullable(...types) as ISeed[][];
 
-it('create a board and inits a board', () => {
-  const gamemanager = new GameManager({ boardSize: 10 });
-  expect(gamemanager.boardSize).toEqual(10);
-  expect(gamemanager.seeds.length).toEqual(10);
-  expect(gamemanager.seeds[9].length).toEqual(10);
+describe('on initialization', () => {
+  it('create a board and inits a board', () => {
+    const gamemanager = new GameManager({ boardSize: 10 });
+    expect(gamemanager.boardSize).toEqual(10);
+    expect(gamemanager.seeds.length).toEqual(10);
+    expect(gamemanager.seeds[9].length).toEqual(10);
+  });
+
+  it('can override init seeds', () => {
+    const gamemanager = new GameManager({
+      seeds: generateSeeds(['b', 'b', 'b'], ['c', 'g', 'b'], ['b', 'g', 'c'])
+    });
+    expect(gamemanager.boardSize).toEqual(3);
+    expect(gamemanager.seeds.length).toEqual(3);
+    expect(gamemanager.seeds[2].length).toEqual(3);
+  });
+
+  it('has cols and rows arranged correctly', () => {
+    const gamemanager = new GameManager({
+      seeds: generateSeeds(['c', 'c', 'c'], ['c', 'g', 'b'], ['c', 'g', 'c'])
+    });
+    expect(gamemanager.seeds[1][2].type).toEqual('black');
+  });
+
+  it('validates seeds shape', () => {
+    expect(
+      () =>
+        new GameManager({
+          seeds: generateSeeds(['c', 'c'], ['c', 'g', 'b'], ['c', 'g', 'c'])
+        })
+    ).toThrow();
+  });
 });
 
-it('can override init seeds', () => {
-  const gamemanager = new GameManager({
-    seeds: generateSeeds(['b', 'b', 'b'], ['c', 'g', 'b'], ['b', 'g', 'c'])
-  });
-  expect(gamemanager.boardSize).toEqual(3);
-  expect(gamemanager.seeds.length).toEqual(3);
-  expect(gamemanager.seeds[2].length).toEqual(3);
-});
+describe('when checking if there is any move', () => {
+  it('can find valid moves', () => {
+    const gamemanager = new GameManager({
+      seeds: generateSeeds(
+        ['b', 'c', 'b', 'g'],
+        ['c', 'b', 'b', 'g'],
+        ['g', 'c', 'g', 'c'],
+        ['g', 'b', 'g', 'c']
+      )
+    });
 
-it('has cols and rows arranged correctly', () => {
-  const gamemanager = new GameManager({
-    seeds: generateSeeds(['c', 'c', 'c'], ['c', 'g', 'b'], ['c', 'g', 'c'])
+    const moves = gamemanager.hasMove();
+    expect(moves).toMatchSnapshot();
   });
-  expect(gamemanager.seeds[1][2].type).toEqual('black');
+
+  it('handles when there are no moves', () => {
+    const gamemanager = new GameManager({
+      seeds: generateSeeds(['b', 'g', 'c'], ['c', 'b', 'c'], ['c', 'g', 'b'])
+    });
+
+    const moves = gamemanager.hasMove();
+    expect(moves.length).toEqual(0);
+  });
 });
 
 describe('when matching cols', () => {
@@ -130,50 +166,58 @@ describe('when matching rows', () => {
   });
 });
 
-it('can get matching for both rows and cols', () => {
-  const gamemanager = new GameManager({
-    seeds: generateSeeds(
-      ['b', 'c', 'b', 'g'],
-      ['c', 'c', 'g', 'g'],
-      ['g', 'c', 'g', 'c'],
-      ['g', 'c', 'g', 'c']
-    )
-  });
-  expect(gamemanager.getMatching()).toMatchSnapshot();
-});
-
-it('can try a valid move', () => {
-  const gamemanager = new GameManager({
-    seeds: generateSeeds(
-      ['b', 'c', 'b', 'g'],
-      ['c', 'b', 'b', 'g'],
-      ['g', 'c', 'g', 'c'],
-      ['g', 'b', 'g', 'c']
-    )
-  });
-  expect(
-    gamemanager.tryMove({
-      col: 0,
-      row: 0,
-      targetCol: 1,
-      targetRow: 0
-    })
-  ).toMatchSnapshot();
-});
-
-it('can see if there is any move', () => {
-  const gamemanager = new GameManager({
-    seeds: generateSeeds(
-      ['b', 'c', 'b', 'g'],
-      ['c', 'b', 'b', 'g'],
-      ['g', 'c', 'g', 'c'],
-      ['g', 'b', 'g', 'c']
-    )
+describe('when getting matching for both rows and cols', () => {
+  it('can get valid matchings', () => {
+    const gamemanager = new GameManager({
+      seeds: generateSeeds(
+        ['b', 'c', 'b', 'g'],
+        ['c', 'c', 'g', 'g'],
+        ['g', 'c', 'g', 'c'],
+        ['g', 'c', 'g', 'c']
+      )
+    });
+    expect(gamemanager.getMatching()).toMatchSnapshot();
   });
 
-  const moves = gamemanager.hasMove();
-  expect(moves).toMatchSnapshot();
+  it('handles some seeds being null', () => {
+    const gamemanager = new GameManager({ boardSize: 4 });
+    expect(
+      gamemanager.getMatching(
+        generateSeedsNullable(
+          ['b', 'c', 'b', 'g'],
+          [null, 'c', null, 'g'],
+          ['g', 'c', 'g', 'c'],
+          ['g', 'c', 'g', 'c']
+        )
+      )
+    ).toMatchSnapshot();
+  });
 });
+
+it.each`
+  col  | row  | targetCol | targetRow | isValid
+  ${0} | ${0} | ${1}      | ${0}      | ${true}
+  ${0} | ${2} | ${0}      | ${3}      | ${false}
+  ${0} | ${0} | ${0}      | ${0}      | ${false}
+  ${0} | ${0} | ${1}      | ${1}      | ${false}
+  ${0} | ${0} | ${2}      | ${0}      | ${false}
+  ${0} | ${0} | ${0}      | ${2}      | ${false}
+`(
+  'when trying move from ($col, $row) to ($targetCol, $targetRow), valid should be $isValid',
+  ({ col, row, targetCol, targetRow, isValid }) => {
+    const gamemanager = new GameManager({
+      seeds: generateSeeds(
+        ['b', 'c', 'b', 'g'],
+        ['c', 'b', 'b', 'g'],
+        ['g', 'c', 'g', 'c'],
+        ['g', 'b', 'g', 'c']
+      )
+    });
+    const result = gamemanager.tryMove({ col, row, targetCol, targetRow });
+    expect(result.move.isValid).toEqual(isValid);
+    expect(result).toMatchSnapshot();
+  }
+);
 
 describe('when spawning new seeds', () => {
   it('can spawn new seeds to fill missing cells', () => {
