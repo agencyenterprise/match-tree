@@ -10,13 +10,25 @@ export default class GameGrid extends Phaser.GameObjects.Group {
   } = {};
   constructor(scene: Phaser.Scene) {
     super(scene);
-    const magicWidth = scene.game.canvas.width / 12;
-    const magicPadding = magicWidth * 2
+
+    // const magicPadding = magicWidth * 2
 
     const atlasTexture = scene.textures.get('megaset');
     const blackseed = atlasTexture.get('blackseed.png');
     const greenseed = atlasTexture.get('greenseed.png');
     const yellowseed = atlasTexture.get('yellowseed.png');
+
+    const isMobile = scene.game.canvas.width < scene.game.canvas.height;
+
+    const magicWidth = isMobile
+      ? ((scene.game.canvas.height / scene.game.canvas.width) *
+          blackseed.width) /
+        256
+      : ((scene.game.canvas.height / scene.game.canvas.width) *
+          blackseed.width) /
+        64;
+
+    console.log(scene.scale, scene.game.scale, this.scaleX, this.scaleY);
     const mapSeeds = this.gm.seeds.map((e) => {
       return e.map((v) => {
         switch (v.type) {
@@ -28,7 +40,9 @@ export default class GameGrid extends Phaser.GameObjects.Group {
               'megaset',
               blackseed.name
             )
+
               .setInteractive()
+              .setScale(1 / magicWidth, 1 / magicWidth)
               .setData('cell', v);
 
           case 'green':
@@ -39,6 +53,7 @@ export default class GameGrid extends Phaser.GameObjects.Group {
               'megaset',
               greenseed.name
             )
+              .setScale(1 / magicWidth, 1 / magicWidth)
               .setInteractive()
               .setData('cell', v);
           case 'corn':
@@ -49,6 +64,7 @@ export default class GameGrid extends Phaser.GameObjects.Group {
               'megaset',
               yellowseed.name
             )
+              .setScale(1 / magicWidth, 1 / magicWidth)
               .setInteractive()
               .setData('cell', v);
           default:
@@ -60,6 +76,7 @@ export default class GameGrid extends Phaser.GameObjects.Group {
               yellowseed.name
             )
               .setInteractive()
+              .setScale(magicWidth, magicWidth)
               .setData('cell', v);
         }
       });
@@ -85,17 +102,14 @@ export default class GameGrid extends Phaser.GameObjects.Group {
     );
     this.addMultiple(sprites, true);
 
-    console.log(this.gm.boardSize)
-
-    const scale = scene.game.canvas.width / scene.game.canvas.height
-    console.log(scale * 80)
+    console.log('scale', magicWidth);
     Phaser.Actions.GridAlign(this.getChildren(), {
       width: 6, //this.gm.boardSize,
       height: 6, //this.gm.boardSize,
-      cellWidth: 100,
-      cellHeight: 100,
-      x: 35,
-      y: 35
+      cellWidth: blackseed.realWidth / magicWidth,
+      cellHeight: blackseed.realWidth / magicWidth,
+      x: 100,
+      y: 100
     });
   }
 }
