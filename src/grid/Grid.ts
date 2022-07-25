@@ -26,7 +26,7 @@ export default class GameGrid extends Phaser.GameObjects.Group {
         256
       : ((scene.game.canvas.height / scene.game.canvas.width) *
           blackseed.width) /
-        64;
+        50;
 
     console.log(scene.scale, scene.game.scale, this.scaleX, this.scaleY);
     const mapSeeds = this.gm.seeds.map((e) => {
