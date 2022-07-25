@@ -10,20 +10,15 @@ export default class GameGrid extends Phaser.GameObjects.Group {
   } = {};
   constructor(scene: Phaser.Scene) {
     super(scene);
-
     const atlasTexture = scene.textures.get('megaset');
-
     const blackseed = atlasTexture.get('blackseed.png');
     const greenseed = atlasTexture.get('greenseed.png');
     const yellowseed = atlasTexture.get('yellowseed.png');
-
-    const sprites = _.flatten(
-      this.gm.seeds.map((e) => {
-        return e.map((v) => {
-          let sprite;
-          // let texture = blackseed.name;
-          if (v.type === 'black') {
-            const data = new Phaser.GameObjects.Sprite(
+    const mapSeeds = this.gm.seeds.map((e) => {
+      return e.map((v) => {
+        switch (v.type) {
+          case 'black':
+            return new Phaser.GameObjects.Sprite(
               this.scene,
               v.col * 35,
               v.row * 35,
@@ -33,23 +28,8 @@ export default class GameGrid extends Phaser.GameObjects.Group {
               .setInteractive()
               .setData('cell', v);
 
-            return data;
-          }
-          if (v.type === 'corn') {
-            const data = new Phaser.GameObjects.Sprite(
-              this.scene,
-              v.col * 35,
-              v.row * 35,
-              'megaset',
-              yellowseed.name
-            )
-              .setInteractive()
-              .setInteractive()
-              .setData('cell', v);
-            return data;
-          }
-          if (v.type === 'green') {
-            const data = new Phaser.GameObjects.Sprite(
+          case 'green':
+            return new Phaser.GameObjects.Sprite(
               this.scene,
               v.col * 35,
               v.row * 35,
@@ -57,14 +37,32 @@ export default class GameGrid extends Phaser.GameObjects.Group {
               greenseed.name
             )
               .setInteractive()
+              .setData('cell', v);
+          case 'corn':
+            return new Phaser.GameObjects.Sprite(
+              this.scene,
+              v.col * 35,
+              v.row * 35,
+              'megaset',
+              yellowseed.name
+            )
               .setInteractive()
               .setData('cell', v);
-            return data;
-          }
-          throw new Error('bad seed');
-        });
-      })
-    );
+          default:
+            return new Phaser.GameObjects.Sprite(
+              this.scene,
+              v.col * 35,
+              v.row * 35,
+              'megaset',
+              yellowseed.name
+            )
+              .setInteractive()
+              .setData('cell', v);
+        }
+      });
+    });
+
+    const sprites = _.flatten(mapSeeds);
     sprites.forEach((e) =>
       e.addListener('pointerdown', () => {
         e.setTint(0x999999);
