@@ -28,20 +28,25 @@ export default class Demo extends Phaser.Scene {
     const frame = atlasTexture.get('background.png');
 
     let scale = 1;
-
-    if (this.game.scale.width > frame.width) {
-      scale = this.game.scale.width / frame.width;
-    }
-    console.log(this.game.scale.width, frame.width, scale);
-    const img = new Phaser.GameObjects.Image(
+    // this.game.scale.setGameSize(2, 2);
+    // if (this.game.scale.width > frame.height) {
+    //   scale = this.game.scale.width / frame.width;
+    // }
+    // console.log(this.game.scale.width, frame.width, scale);
+    // console.log(this.game.scale)
+    const background = new Phaser.GameObjects.Image(
       this,
-      frame.width / (2 / scale),
-      frame.height / 2,
+      window.innerWidth / 2,
+      window.innerHeight / 2,
       'megaset',
       frame.name
     );
-    img.setScale(scale, scale);
-    this.add.existing(img);
+
+    const scaleX = (window.innerWidth / background.width);
+    const scaleY = (window.innerHeight / background.height);
+    scale = Math.max(scaleX, scaleY);
+    background.setScale(scale);
+    this.add.existing(background);
 
     // this.scale.displaySize.height
     // this. scale.displaySize.width;

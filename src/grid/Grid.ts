@@ -10,6 +10,9 @@ export default class GameGrid extends Phaser.GameObjects.Group {
   } = {};
   constructor(scene: Phaser.Scene) {
     super(scene);
+    const magicWidth = scene.game.canvas.width / 12;
+    const magicPadding = magicWidth * 2
+
     const atlasTexture = scene.textures.get('megaset');
     const blackseed = atlasTexture.get('blackseed.png');
     const greenseed = atlasTexture.get('greenseed.png');
@@ -82,13 +85,25 @@ export default class GameGrid extends Phaser.GameObjects.Group {
     );
     this.addMultiple(sprites, true);
 
+    console.log(this.gm.boardSize)
+
+    const scale = scene.game.canvas.width / scene.game.canvas.height
+    console.log(scale * 80)
     Phaser.Actions.GridAlign(this.getChildren(), {
-      width: this.gm.boardSize,
-      height: this.gm.boardSize,
-      cellWidth: 80,
-      cellHeight: 80,
+      width: 6, //this.gm.boardSize,
+      height: 6, //this.gm.boardSize,
+      cellWidth: 100,
+      cellHeight: 100,
       x: 35,
       y: 35
     });
   }
 }
+// const scaleHeight = scene.game.canvas.height / scene.game.canvas.width
+// Phaser.Actions.GridAlign(this.getChildren(), {
+//   width: 600, //this.gm.boardSize / scaleHeight,
+//   height: 600, //this.gm.boardSize / scaleHeight,
+//   cellWidth: 100, //magicWidth,
+//   cellHeight: 100, //scene.game.canvas.height / 12,
+//   x: 100, //magicWidth,
+//   y: 100, //scene.game.canvas.height / 12
